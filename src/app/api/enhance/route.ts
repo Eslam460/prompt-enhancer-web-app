@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
     }
 
     const openRouterKey = apiKey || process.env.OPENROUTER_API_KEY;
-    
+
     if (!openRouterKey) {
       return NextResponse.json(
         { error: "OpenRouter API key not configured" },
@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const selectedModel = model || process.env.OPENROUTER_MODEL || "nvidia/nemotron-nano-9b-v2:free";
+    const selectedModel = model || process.env.OPENROUTER_MODEL || "openai/gpt-oss-20b:free";
 
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",

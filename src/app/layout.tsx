@@ -9,6 +9,13 @@ import { SettingsProvider } from "@/contexts/SettingsContext";
 export const metadata: Metadata = {
   title: "Prompt Enhancer - AI-Powered Prompt Optimization",
   description: "Enhance your prompts for programming, design, and research with AI",
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+  },
 };
 
 export default function RootLayout({
