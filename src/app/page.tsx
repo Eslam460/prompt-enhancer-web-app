@@ -10,6 +10,7 @@ import HistoryPanel, { addToHistory } from "@/components/HistoryPanel";
 import { enhancePrompt } from "@/lib/api";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useSettings } from "@/hooks/useSettings";
 
 export default function Home() {
   const [showHero, setShowHero] = useState(true);
@@ -18,6 +19,7 @@ export default function Home() {
   const [result, setResult] = useState<{ enhancedPrompt: string; explanation: string } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [originalPrompt, setOriginalPrompt] = useState("");
+  const { settings } = useSettings();
 
   const handleGetStarted = () => {
     setShowHero(false);
@@ -32,6 +34,8 @@ export default function Home() {
       const response = await enhancePrompt({
         prompt,
         category: selectedCategory,
+        apiKey: settings.apiKey,
+        model: settings.selectedModel,
       });
       
       setResult(response);
@@ -59,7 +63,7 @@ export default function Home() {
       {showHero ? (
         <HeroSection onGetStarted={handleGetStarted} />
       ) : (
-        <div className="flex pt-16">
+        <div className="flex pt-20">
           <Sidebar 
             selectedCategory={selectedCategory}
             onCategoryChange={setSelectedCategory}

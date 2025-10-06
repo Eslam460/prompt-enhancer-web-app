@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Sparkles, RotateCcw } from "lucide-react";
+import { Sparkles, RotateCcw, Bot } from "lucide-react";
 import { Category } from "./Sidebar";
+import { useSettings } from "@/hooks/useSettings";
 
 type PromptInputProps = {
   category: Category;
@@ -14,6 +15,7 @@ type PromptInputProps = {
 
 export default function PromptInput({ category, onEnhance, isLoading }: PromptInputProps) {
   const [prompt, setPrompt] = useState("");
+  const { settings } = useSettings();
 
   const handleEnhance = () => {
     if (prompt.trim()) {
@@ -42,6 +44,15 @@ export default function PromptInput({ category, onEnhance, isLoading }: PromptIn
 
   return (
     <div className="space-y-4">
+      {settings.modelName && (
+        <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/5 border border-primary/10">
+          <Bot className="w-4 h-4 text-primary" />
+          <span className="text-sm text-muted-foreground">
+            Using: <span className="font-medium text-foreground">{settings.modelName}</span>
+          </span>
+        </div>
+      )}
+      
       <div className="relative">
         <Textarea
           value={prompt}

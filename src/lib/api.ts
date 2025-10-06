@@ -1,6 +1,8 @@
 export type EnhancePromptRequest = {
   prompt: string;
   category: string;
+  apiKey?: string;
+  model?: string;
 };
 
 export type EnhancePromptResponse = {

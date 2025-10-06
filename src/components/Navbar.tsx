@@ -4,6 +4,7 @@ import { Moon, Sun, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "./ThemeProvider";
 import { useState, useEffect } from "react";
+import SettingsDialog from "./SettingsDialog";
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
@@ -14,7 +15,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/80 backdrop-blur-lg">
+    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/80 backdrop-blur-lg shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-2">
@@ -26,20 +27,23 @@ export default function Navbar() {
             </h1>
           </div>
           
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleTheme}
-            className="rounded-full"
-          >
-            {!mounted ? (
-              <Sun className="w-5 h-5" />
-            ) : theme === "light" ? (
-              <Moon className="w-5 h-5" />
-            ) : (
-              <Sun className="w-5 h-5" />
-            )}
-          </Button>
+          <div className="flex items-center gap-2">
+            <SettingsDialog />
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleTheme}
+              className="rounded-full"
+            >
+              {!mounted ? (
+                <Sun className="w-5 h-5" />
+              ) : theme === "light" ? (
+                <Moon className="w-5 h-5" />
+              ) : (
+                <Sun className="w-5 h-5" />
+              )}
+            </Button>
+          </div>
         </div>
       </div>
     </nav>

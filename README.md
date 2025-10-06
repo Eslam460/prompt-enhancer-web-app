@@ -6,22 +6,37 @@ A modern, interactive web application that helps you optimize AI prompts for pro
 
 ## ✨ Features
 
+- **🔑 Dynamic API Key Management**: 
+  - Set your own OpenRouter API key through intuitive UI
+  - No need to edit .env files
+  - Secure local storage (browser-based)
+  - Automatic fallback to environment variables
+
+- **🤖 Advanced Model Selection**:
+  - Browse all available OpenRouter models in real-time
+  - Filter by Free/Paid models with separate tabs
+  - View model details (context length, pricing, description)
+  - Real-time model switching without page reload
+  - Visual indicators for free models
+
 - **🎯 Multi-Category Support**: Optimize prompts for different use cases:
-  - Programming (code generation, debugging, optimization)
-  - Design (UI/UX, image generation)
-  - Research (knowledge retrieval, structured responses)
-  - General queries
+  - **Programming**: Code generation, debugging, optimization with SOLID principles
+  - **Design**: UI/UX, accessibility standards (WCAG), responsive design
+  - **Research**: Academic research, citation standards, credible sources
+  - **General**: Clear objectives, structured outputs, quality requirements
 
 - **🎨 Modern UI/UX**: 
   - Glassmorphism design with backdrop blur effects
   - Responsive layout for all screen sizes
   - Dark/Light mode toggle
   - Smooth animations with Framer Motion
+  - Improved navbar (non-overlapping content)
 
 - **💾 Prompt History**: 
   - Stores last 10 enhanced prompts locally
   - Quick copy and delete actions
   - Automatic timestamp tracking
+  - Category labels
 
 - **📋 Export Options**:
   - Copy enhanced prompts to clipboard
@@ -29,19 +44,23 @@ A modern, interactive web application that helps you optimize AI prompts for pro
   - One-click sharing
 
 - **⚡ Real-time Enhancement**: 
-  - Powered by OpenRouter API
+  - Powered by OpenRouter API with multiple models
   - Fast response times
   - Detailed explanations for improvements
+  - Enhanced system prompts for better results
 
 ## 🛠️ Tech Stack
 
 - **Frontend**: Next.js 15 (App Router)
-- **UI Library**: React 18
-- **Styling**: Tailwind CSS
-- **Components**: Shadcn/UI
+- **UI Library**: React 19
+- **Styling**: Tailwind CSS 4
+- **Components**: Shadcn/UI + Radix UI
 - **Animations**: Framer Motion
-- **API**: OpenRouter AI
-- **Type Safety**: TypeScript
+- **State Management**: React Context API
+- **Local Storage**: Browser localStorage for settings persistence
+- **API**: OpenRouter AI (dynamic model support)
+- **Type Safety**: TypeScript 5
+- **Icons**: Lucide React
 - **Font**: Inter (Google Fonts)
 
 ## 📦 Installation
@@ -61,7 +80,15 @@ A modern, interactive web application that helps you optimize AI prompts for pro
    bun install
    ```
 
-3. **Set up environment variables**:
+3. **Set up API key** (Two options):
+   
+   **Option A - Through UI (Recommended):**
+   1. Run the development server (see step 4)
+   2. Click the Settings icon (⚙️) in the navbar
+   3. Enter your OpenRouter API key
+   4. Select your preferred AI model (Free or Paid)
+   
+   **Option B - Environment Variable (Optional):**
    
    Create a `.env.local` file in the root directory:
    ```bash
@@ -79,7 +106,7 @@ A modern, interactive web application that helps you optimize AI prompts for pro
    > 2. Sign up or log in to your account
    > 3. Navigate to [API Keys](https://openrouter.ai/keys)
    > 4. Create a new API key and copy it
-   > 5. Paste it in your `.env.local` file
+   > 5. Enter it through the Settings UI or paste in `.env.local`
 
 4. **Run the development server**:
    ```bash
@@ -95,12 +122,35 @@ A modern, interactive web application that helps you optimize AI prompts for pro
 
 ## 🎯 Usage
 
-1. **Select a Category**: Choose from Programming, Design, Research, or General
-2. **Enter Your Prompt**: Type or paste your prompt in the input area
-3. **Enhance**: Click the "Enhance Prompt" button
-4. **Review Results**: See the enhanced prompt with explanation
-5. **Export**: Copy to clipboard or download as a text file
-6. **History**: View your last 10 enhanced prompts in the sidebar
+1. **Configure Settings** (First time):
+   - Click the Settings icon (⚙️) in the top-right navbar
+   - Enter your OpenRouter API key
+   - Browse and select your preferred AI model (Free or Paid tabs)
+   - Settings are automatically saved to your browser
+
+2. **Select a Category**: Choose from Programming, Design, Research, or General
+
+3. **Enter Your Prompt**: Type or paste your prompt in the input area
+   - See your current model displayed above the input area
+   - Character count displayed in real-time
+
+4. **Enhance**: Click the "Enhance Prompt" button
+   - Watch the loading animation while AI processes your prompt
+   - Results use your selected model and enhanced system prompts
+
+5. **Review Results**: 
+   - See the enhanced prompt with detailed explanation
+   - Understand what improvements were made and why
+
+6. **Export**: 
+   - Copy to clipboard with one click
+   - Download as a text file for later use
+   - Add to history for quick access
+
+7. **History**: 
+   - View your last 10 enhanced prompts in the sidebar
+   - Quick copy, view details, or delete entries
+   - Filter by category and timestamp
 
 ## 🏗️ Project Structure
 
@@ -109,27 +159,57 @@ prompt-enhancer/
 ├── src/
 │   ├── app/
 │   │   ├── api/
-│   │   │   └── enhance/
-│   │   │       └── route.ts        # OpenRouter API integration
+│   │   │   ├── enhance/
+│   │   │   │   └── route.ts        # Enhanced prompt API (dynamic model support)
+│   │   │   └── models/
+│   │   │       └── route.ts        # NEW: Fetches available OpenRouter models
 │   │   ├── globals.css             # Global styles & theme
-│   │   ├── layout.tsx              # Root layout
-│   │   └── page.tsx                # Main page
+│   │   ├── layout.tsx              # Root layout with SettingsProvider
+│   │   └── page.tsx                # Main page with improved padding
 │   ├── components/
-│   │   ├── ui/                     # Shadcn/UI components
+│   │   ├── ui/                     # Shadcn/UI components (Button, Dialog, etc.)
 │   │   ├── HeroSection.tsx         # Landing hero section
-│   │   ├── Navbar.tsx              # Navigation bar
+│   │   ├── Navbar.tsx              # Navigation bar with Settings button
 │   │   ├── Sidebar.tsx             # Category sidebar
-│   │   ├── PromptInput.tsx         # Prompt input form
+│   │   ├── PromptInput.tsx         # Prompt input with model indicator
 │   │   ├── ResultsCard.tsx         # Enhanced results display
 │   │   ├── HistoryPanel.tsx        # History sidebar
-│   │   └── ThemeProvider.tsx       # Dark/Light mode provider
-│   └── lib/
-│       ├── api.ts                  # API helper functions
-│       └── utils.ts                # Utility functions
+│   │   ├── ThemeProvider.tsx       # Dark/Light mode provider
+│   │   ├── SettingsDialog.tsx      # NEW: API key & model configuration UI
+│   │   └── ModelSelector.tsx       # NEW: Model selection with Free/Paid tabs
+│   ├── contexts/
+│   │   └── SettingsContext.tsx     # NEW: Global settings state management
+│   ├── hooks/
+│   │   └── useSettings.ts          # NEW: Custom hook for settings access
+│   ├── lib/
+│   │   ├── api.ts                  # API helper functions (enhanced)
+│   │   ├── system-prompts.ts       # NEW: Enhanced system prompts library
+│   │   └── utils.ts                # Utility functions
+│   └── types/
+│       └── models.ts               # NEW: TypeScript type definitions
 ├── .env.local.example              # Environment variables template
 ├── package.json
 └── README.md
 ```
+
+### New Files & Enhancements:
+
+**New Files (7):**
+- `src/app/api/models/route.ts` - Fetches OpenRouter models
+- `src/contexts/SettingsContext.tsx` - Settings state management
+- `src/components/SettingsDialog.tsx` - Settings UI
+- `src/components/ModelSelector.tsx` - Model selection component
+- `src/lib/system-prompts.ts` - Improved system prompts
+- `src/types/models.ts` - Type definitions
+- `src/hooks/useSettings.ts` - Settings hook
+
+**Enhanced Files (6):**
+- `src/app/api/enhance/route.ts` - Now supports dynamic models
+- `src/components/Navbar.tsx` - Added Settings button
+- `src/app/page.tsx` - Fixed padding issue
+- `src/app/layout.tsx` - Added SettingsProvider
+- `src/components/PromptInput.tsx` - Shows current model
+- `src/lib/api.ts` - Supports apiKey and model params
 
 ## 🎨 Customization
 
@@ -143,17 +223,29 @@ Edit `src/app/globals.css` to customize the color scheme:
 }
 ```
 
-### AI Model
-Change the AI model in `src/app/api/enhance/route.ts`:
-```typescript
-model: "meta-llama/llama-3.1-8b-instruct:free", // Change this
-```
+### AI Model Selection
+**Easy Way (Recommended):**
+- Click Settings (⚙️) in navbar
+- Browse and select from 100+ available models
+- Filter by Free/Paid tabs
+- See model details (context length, pricing)
 
-Available models on OpenRouter:
-- `meta-llama/llama-3.1-8b-instruct:free` (Current)
-- `anthropic/claude-3-haiku`
-- `openai/gpt-3.5-turbo`
-- And many more at [OpenRouter Models](https://openrouter.ai/models)
+**All models are fetched dynamically from OpenRouter**, including:
+- Free models: Llama, Mistral, Gemini Flash, etc.
+- Paid models: GPT-4, Claude, Gemini Pro, etc.
+
+Visit [OpenRouter Models](https://openrouter.ai/models) for full list.
+
+### System Prompts
+Customize system prompts in `src/lib/system-prompts.ts`:
+```typescript
+export const SYSTEM_PROMPTS = {
+  programming: "Your custom programming prompt...",
+  design: "Your custom design prompt...",
+  research: "Your custom research prompt...",
+  general: "Your custom general prompt...",
+};
+```
 
 ## 🚀 Deployment
 
@@ -174,21 +266,62 @@ The app can be deployed to any platform that supports Next.js:
 
 **Important**: Don't forget to set your environment variables on the deployment platform!
 
-## 📝 API Usage
+## 📝 API Usage & Best Practices
 
-The app uses OpenRouter's free tier by default. For production use, consider:
-- Upgrading to a paid plan for better rate limits
-- Implementing rate limiting
-- Adding user authentication
-- Caching responses
+### Free vs Paid Models
+- **Free models**: Great for testing and personal use (no cost)
+- **Paid models**: Better performance, larger context windows (requires credits)
+
+### Production Considerations
+- **Rate Limiting**: Implement rate limiting for production deployments
+- **User Authentication**: Add auth to track usage per user
+- **API Key Security**: Never commit API keys to version control
+- **Caching**: Cache responses for identical prompts to reduce costs
+- **Error Handling**: Implement robust error handling for API failures
+- **Monitoring**: Track API usage and costs through OpenRouter dashboard
+
+### OpenRouter Credits
+- Free models: Always free, no credits needed
+- Paid models: Purchase credits at [OpenRouter](https://openrouter.ai/credits)
+- Check pricing: Each model has different per-token costs
+- Set budget limits in OpenRouter dashboard
 
 ## 🔒 Security Notes
 
-- Never commit your `.env.local` file
-- Keep your API keys secure
-- Use environment variables for all sensitive data
-- Implement rate limiting for production
-- Consider adding authentication for user-specific features
+- **Never commit** your `.env.local` file or API keys to Git
+- **API keys** are stored in browser localStorage (client-side only)
+- **Environment variables** are used as fallback for server-side keys
+- **Use HTTPS** in production to encrypt data transmission
+- **Implement rate limiting** for production deployments
+- **Add authentication** for multi-user production systems
+- **Validate inputs** to prevent injection attacks
+- **Monitor API usage** through OpenRouter dashboard
+
+## 🆕 Recent Updates (Latest Version)
+
+### Major Features Added:
+✅ **Dynamic API Key Management** - Configure API keys through UI  
+✅ **Model Selection Interface** - Browse and select from 100+ models  
+✅ **Free/Paid Model Filtering** - Separate tabs for easy navigation  
+✅ **Enhanced System Prompts** - Significantly improved prompt quality  
+✅ **Settings Persistence** - Auto-save settings to localStorage  
+✅ **Model Indicator** - See current model in prompt input  
+✅ **Fixed Navbar Padding** - Content no longer overlaps  
+✅ **Improved Documentation** - Comprehensive README updates  
+
+### Technical Improvements:
+- New Context API for global settings management
+- TypeScript types for OpenRouter models
+- Dedicated API endpoint for fetching models
+- Enhanced error handling and loading states
+- Better UI/UX with visual feedback
+- Modular code structure with better separation of concerns
+
+### System Prompt Enhancements:
+- **Programming**: Added SOLID principles, security best practices, testing requirements
+- **Design**: Added WCAG accessibility, responsive breakpoints, animation guidelines
+- **Research**: Added citation standards, source credibility checks, structured formats
+- **General**: Added comprehensive quality criteria, evaluation metrics, output specifications
 
 ## 🤝 Contributing
 
